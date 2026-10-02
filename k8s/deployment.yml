@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Student Hub
+  spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: Student Hub
+  template:
+    metadata:
+      labels:
+        app: Student Hub
+    spec:
+      containers:
+        - name: Student Hub
+          image: lads07/Student Hub:lates
+          ports:
+            - containerPort: 80
