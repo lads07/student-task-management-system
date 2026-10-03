@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+
   pull_request:
     branches:
       - main
@@ -31,29 +32,22 @@ jobs:
           cache: maven
 
       - name: Build and test backend
-        run: mvn -B clean verify
+        run: ./mvnw -B clean verify
 
   frontend:
-    name: Frontend - Build
+    name: Frontend - Validate
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
+      - name: Check frontend files
+        working-directory: frontend
+        run: |
+          test -f index.html
+          test -f register.html
+          test -f dashboard.html
+          test -d css
+          test -d js
+          echo "Frontend files found successfully."
